@@ -1,17 +1,24 @@
+//! parser.rs
+//! This module loads and parses the property dataset from a CSV file.
+
 use csv::ReaderBuilder;
 use rayon::prelude::*;
 use crate::property::Property;
+
+/// Parses a CSV file and returns a list of Property structs.
 pub fn parse_csv(filename: &str) -> Vec<Property> {
     let mut reader = ReaderBuilder::new()
-        .has_headers(true) // Skip the header row
+        .has_headers(true)
         .from_path(filename)
-        .expect("Error: Cannot open file. Check path and permissions.");
+        .expect("Error: Cannot open file. Check the path and permissions.");
 
     reader
         .records()
-        .par_bridge() // Parallel iterator
+        .par_bridge()
         .filter_map(|result| {
             if let Ok(record) = result {
+                let longitude = record.get(14)?.parse::<f64>().ok();
+                let latitude = record.get(15)?.parse::<f64>().ok();
                 Some(Property {
                     serial_number: record.get(0)?.to_string(),
                     year: record.get(1)?.parse().unwrap_or(0),
@@ -23,7 +30,10 @@ pub fn parse_csv(filename: &str) -> Vec<Property> {
                     sales_ratio: record.get(7)?.parse().unwrap_or(0.0),
                     property_type: record.get(8)?.to_string(),
                     residential_type: None,
-                    location: None,
+                    location: match (longitude, latitude) {
+                        (Some(lon), Some(lat)) => Some((lon, lat)),
+                        _ => None,
+                    },
                 })
             } else {
                 None

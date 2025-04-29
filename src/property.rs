@@ -1,3 +1,8 @@
+//! property.rs
+//! This module defines the Property struct to represent a real estate record.
+
+/// Represents a single property record from the dataset.
+/// Holds sale information, location, and basic attributes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Property {
     pub serial_number: String,
@@ -12,5 +17,3 @@ pub struct Property {
     pub residential_type: Option<String>,
     pub location: Option<(f64, f64)>,
 }
-
-
