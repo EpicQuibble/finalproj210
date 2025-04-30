@@ -18,6 +18,9 @@ use heatmap_draw::draw_heatmap;
 use std::time::Instant;
 
 fn main() {
+    // Start the timer for the entire program
+    let program_start = Instant::now();
+
     // Load properties from CSV
     let properties = parse_csv("hunnit_thau.csv");
     println!("Loaded {} properties.", properties.len());
@@ -45,4 +48,12 @@ fn main() {
     // Generate heatmaps
     generate_heatmap(&properties, "ct_heatmap.csv");
     draw_heatmap(&properties, "ct_heatmap.png");
+
+    // End the timer for the entire program
+    let program_duration = program_start.elapsed();
+    println!(
+        "\nFor {} properties, the program took {:.2?} to run.",
+        properties.len(),
+        program_duration
+    );
 }

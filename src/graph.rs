@@ -6,8 +6,9 @@ use crate::property::Property;
 use rand::prelude::*;
 use std::sync::Mutex;
 use rayon::iter::IntoParallelRefIterator;
-use rayon::iter::ParallelIterator;  // <-- THIS IS MISSING IN YOUR FILE
-
+use rayon::iter::ParallelIterator;  
+use rand::SeedableRng;
+use rand::rngs::StdRng;
 
 /// Represents a graph where nodes are properties and edges represent connections (e.g., same town).
 #[derive(Clone)]
@@ -56,8 +57,7 @@ impl Graph {
                 .push(property.serial_number.clone());
         }
 
-        let mut rng = rand::rng();
-        // For each town group, connect properties randomly
+        let mut rng = StdRng::seed_from_u64(69); // Number here is the seed -> 69        // For each town group, connect properties randomly
         for properties in town_map.values() {
             if properties.len() <= 5 {
                 // If small group, fully connect
