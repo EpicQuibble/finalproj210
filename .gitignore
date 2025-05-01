@@ -1,7 +1,10 @@
 /target
 /cargo.lock
+/old_code
 Real_Estate_Sales_2001-2022_GL.csv
 miniture_five_thou_dataset.csv
 cords_split_only.csv
 ct_heatmap.csv
-ct_heatmap.png
+flipper_candidates.csv
+fivethouentry_dataset.csv
+small_dataset.csv
