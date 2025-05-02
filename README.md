@@ -27,7 +27,9 @@ I used [`rayon`](https://docs.rs/rayon/latest/rayon/index.html) for parallel pro
 
 ### Cleaning/Preprocessing
 
-The original dataset had quite a bit of hit or miss data. I created and used a seperate rust program to clean, and split only the data that contained the lat/lon cordinates. Within the program only the following cleaning is done.:
+The original dataset had quite a bit of hit or miss data. I created and used a seperate rust program to clean, and split only the data that contained the lat/lon cordinates.
+
+Within the program only the following cleaning is done:
 
 - Only properties with valid coordinates and positive sale amounts are processed (invalid data is skipped)
 - Location coordinates are binned into 0.01-degree grid cells for visualization
@@ -91,8 +93,7 @@ test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 - Program outputs:
     - Text printed to terminal
-    - [heatmap.csv ](ct_heatmap.csv)
-
+    - `ct_heatmap.csv`
 ct_heatmap.png: 
 
 ![.png file ](ct_heatmap.png)
@@ -135,16 +136,16 @@ Program completed in 1.23s
 
 ## F. Usage Instructions
 
+### Prerequisites:
+- Rust & IDE of choice
+- File named [shrunk_split_data.csv](shrunk_split_data.csv) in project root (CSV can be changed in main.rs)
+- [Cargo.toml](Cargo.toml) with relevent dependencies 
+
 ### Run Locally:
 ```bash
 cargo build --release
 cargo run --release
 ```
-
-### Prerequisites:
-- Rust & IDE of choice
-- File named [shrunk_split_data.csv](shrunk_split_data.csv) in project root (CSV can be changed in main.rs)
-- [Cargo.toml](Cargo.toml) with relevent dependencies 
 
 ### Runtime:
 - ~2 seconds *with included file `shrunk_split_data.csv`*
