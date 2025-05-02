@@ -47,3 +47,41 @@ pub fn generate_heatmap(properties: &[Property], output_path: &str) {
 
     println!("Heatmap CSV saved to {}", output_path);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::property::Property;
+    use std::fs;
+
+    #[test]
+    fn test_generate_heatmap_content() {
+        let props = vec![
+            Property {
+                sales_ratio: 0.5,
+                location: Some((-72.55, 41.23)),
+                ..Default::default()
+            },
+            Property {
+                sales_ratio: 1.5,
+                location: Some((-72.55, 41.23)),
+                ..Default::default()
+            },
+        ];
+
+        let output = "test_heatmap.csv";
+        generate_heatmap(&props, output);
+
+        let file_contents = fs::read_to_string(output).unwrap();
+
+        // Make sure the header is present
+        assert!(file_contents.contains("lon,lat,avg_ratio"));
+
+        // Make sure the average is calculated correctly: (0.5 + 1.5) / 2 = 1.0
+        assert!(file_contents.contains("41.23"));
+        assert!(file_contents.contains("1.000"));
+
+       fs::remove_file(output).unwrap();
+    }
+}
+    

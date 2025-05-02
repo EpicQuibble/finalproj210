@@ -55,3 +55,33 @@ pub fn parse_csv(filename: &str) -> Vec<Property> {
         })
         .collect()
 }
+
+
+
+
+#[test]
+fn test_parse_csv_with_mock_data() {
+    use std::fs::{write, remove_file};
+    use std::path::Path;
+
+    // Header + one row of real-world-style data
+    let content = "Serial Number,List Year,Date Recorded,Town,Address,Assessed Value,Sale Amount,Sales Ratio,Property Type,Residential Type,Non Use Code,Assessor Remarks,OPM remarks,Location,Longitude,Latitude\n\
+220008,2022,01/30/2023,Andover,618 ROUTE 6,139020.00,232000.00,0.5992,Residential,Single Family,,,,POINT (-72.343628962 41.728431984),-72.343628962,41.728431984";
+
+    let test_file = "test.csv";
+    write(test_file, content).expect("Failed to write test CSV");
+
+    let props = crate::parser::parse_csv(test_file);
+    assert_eq!(props.len(), 1, "Expected one property, got: {:?}", props);
+
+    let p = &props[0];
+    assert_eq!(p.serial_number, "220008");
+    assert_eq!(p.town, "Andover");
+    assert_eq!(p.sale_amount, 232000.0);
+    assert_eq!(p.sales_ratio, 0.5992);
+    assert_eq!(p.location, Some((-72.343628962, 41.728431984)));
+
+    if Path::new(test_file).exists() {
+        remove_file(test_file).unwrap();
+    }
+}

@@ -31,7 +31,7 @@ fn main() {
     let start = Instant::now(); // Measure program runtime
 
     // Load properties from CSV file
-    let properties = parse_csv("cords_split_only.csv"); // Put whatever csv file you want here
+    let properties = parse_csv("shrunk_split_data.csv"); // Put whatever csv file you want here
     println!("Loaded {} properties.", properties.len());
 
     // Print high-level summary stats (mean, median, std dev)

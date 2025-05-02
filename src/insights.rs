@@ -156,3 +156,30 @@ pub fn find_flipper_properties(properties: &[Property]) {
         );
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::property::Property;
+
+    #[test]
+    fn test_summary_statistics_runs() {
+        let properties = vec![
+            Property {
+                sale_amount: 200_000.0,
+                ..Default::default()
+            },
+            Property {
+                sale_amount: 300_000.0,
+                ..Default::default()
+            },
+            Property {
+                sale_amount: 500_000.0,
+                ..Default::default()
+            },
+        ];
+
+        // checking that the function runs without crashing
+        print_summary_statistics(&properties);
+    }
+}
